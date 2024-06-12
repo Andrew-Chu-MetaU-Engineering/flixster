@@ -2,3 +2,9 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.now-playing, .search, .load-more {
+    margin: 2rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+}

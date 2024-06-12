@@ -1,8 +1,15 @@
+/* TODO apply Martin's feedback on project 1 re: CSS */
 .movie-card {
     width: 15rem;
     margin: 1rem;
+    border: thick double black;
+    border-radius: 1rem;
 }
 
 .title {
     width: 100%;
+}
+
+.poster {
+    width: 90%;
 }

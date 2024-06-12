@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import MovieCard from './MovieCard';
 import './MovieList.css';
 
-function MovieList() {
+function MovieList({ onMovieClick }) {
     const [movies, setMovies] = useState(undefined);
     const [page, setPage] = useState(1);
 
     const [searchQuery, setSearchQuery] = useState("");
     const [isSearchActive, setIsSearchActive] = useState(false);
-
 
     useEffect(() => {
         const options = {
@@ -54,10 +54,10 @@ function MovieList() {
         fetchData();
     }, [page, isSearchActive, searchQuery]);
 
-    const handleSearchSubmit = async (event) => {
-        event.preventDefault();
+    const handleSearchSubmit = async (e) => {
+        e.preventDefault();
 
-        const form = event.target;
+        const form = e.target;
         const formData = new FormData(form);
         setSearchQuery(formData.get("query"));
 
@@ -79,8 +79,17 @@ function MovieList() {
 
     return (
         <>
-            <button onClick={handleSearchToggle} name="now-playing">Now Playing</button>
-            <button onClick={handleSearchToggle} name="search">Search</button>
+            <button onClick={handleSearchToggle} name="now-playing" className="now-playing">Now Playing</button>
+            <button onClick={handleSearchToggle} name="search" className="search">Search</button>
+            {/* <form>
+                <label>
+                    <select>
+                        <option value="1">Default</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </label>
+            </form> */}
 
             {isSearchActive &&
                 <form onSubmit={handleSearchSubmit}>
@@ -92,19 +101,21 @@ function MovieList() {
             <section className='movie-list'>
                 {movies?.results.map(
                     movie =>
-                        <MovieCard key={movie.id}
-                            title={movie.title}
-                            poster_path={movie.poster_path}
-                            vote_average={movie.vote_average} />
+                        <MovieCard key={movie.id} movie={movie}
+                            onMovieClick={onMovieClick} />
                 )}
             </section>
 
             {(movies && movies.results && movies.results.length > 0) ?
-                <button onClick={() => setPage(page => page + 1)}>Load More</button> :
+                <button onClick={() => setPage(page => page + 1)} className="load-more">Load More</button> :
                 <p>No movies found.</p>
             }
         </>
     );
+}
+
+MovieList.propTypes = {
+    onMovieClick: PropTypes.func.isRequired,
 }
 
 export default MovieList;
