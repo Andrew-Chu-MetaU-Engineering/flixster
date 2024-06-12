@@ -2,17 +2,13 @@ import { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
 import './MovieList.css';
 
-
-
 function MovieList() {
-    const [nowPlayingMovies, setNowPlayingMovies] = useState(undefined);
-    const [nowPlayingPage, setNowPlayingPage] = useState(1);
+    const [movies, setMovies] = useState(undefined);
+    const [page, setPage] = useState(1);
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [searchMovies, setSearchMovies] = useState(undefined);
-    const [searchPage, setSearchPage] = useState(0);
-
     const [isSearchActive, setIsSearchActive] = useState(false);
+
 
     useEffect(() => {
         const options = {
@@ -22,17 +18,13 @@ function MovieList() {
                 Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`
             }
         };
-
         async function fetchData() {
             try {
-                let url = "";
-                let page = 0;
+                let url = "https://api.themoviedb.org/3";
                 if (isSearchActive) {
-                    page = searchPage;
-                    url = `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&include_adult=false&language=en-US&page=${page}`;
+                    url += `/search/movie?query=${searchQuery}&include_adult=false&language=en-US&page=${page}`;
                 } else {
-                    page = nowPlayingPage;
-                    url = `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=${page}`;
+                    url += `/movie/now_playing?language=en-US&page=${page}`;
                 }
 
                 const response = await fetch(url, options);
@@ -54,18 +46,13 @@ function MovieList() {
                     }
                     return prevData;
                 }
-
-                if (isSearchActive) {
-                    setSearchMovies(updateMoviesList);
-                } else {
-                    setNowPlayingMovies(updateMoviesList);
-                }
+                setMovies(updateMoviesList);
             } catch (error) {
                 console.error(error);
             }
         }
         fetchData();
-    }, [nowPlayingPage, searchPage, searchQuery]);
+    }, [page, isSearchActive, searchQuery]);
 
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
@@ -74,24 +61,26 @@ function MovieList() {
         const formData = new FormData(form);
         setSearchQuery(formData.get("query"));
 
-        setSearchPage(1);
+        setPage(1);
     }
 
-    const handleSearchToggle = () => {
-        if (isSearchActive) {
-            // returning to "now playing" page
-            setSearchQuery("");
-            setSearchMovies(undefined);
-            setSearchPage(0);
+    const handleSearchToggle = (e) => {
 
-            setNowPlayingPage(1);
+        const button = e.target.name;
+        if (button === "now-playing") {
+            setIsSearchActive(false);
+        } else if (button === "search") {
+            setIsSearchActive(true);
         }
-        setIsSearchActive(state => !state);
+
+        setPage(1);
+        setSearchQuery("");
     }
 
     return (
         <>
-            <button onClick={handleSearchToggle}>Toggle</button>
+            <button onClick={handleSearchToggle} name="now-playing">Now Playing</button>
+            <button onClick={handleSearchToggle} name="search">Search</button>
 
             {isSearchActive &&
                 <form onSubmit={handleSearchSubmit}>
@@ -101,20 +90,19 @@ function MovieList() {
             }
 
             <section className='movie-list'>
-                {(isSearchActive ? searchMovies : nowPlayingMovies)?.results.map(
+                {movies?.results.map(
                     movie =>
                         <MovieCard key={movie.id}
                             title={movie.title}
                             poster_path={movie.poster_path}
                             vote_average={movie.vote_average} />
                 )}
-                {(searchPage > 0 || !isSearchActive) &&
-                    (<button onClick={() => {
-                        const setPage = isSearchActive ? setSearchPage : setNowPlayingPage;
-                        setPage(page => page + 1);
-                    }}>Load More</button>)
-                }
             </section>
+
+            {(movies && movies.results && movies.results.length > 0) ?
+                <button onClick={() => setPage(page => page + 1)}>Load More</button> :
+                <p>No movies found.</p>
+            }
         </>
     );
 }
