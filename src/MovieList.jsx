@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MovieCard from './MovieCard';
 import './MovieList.css';
 
-function MovieList({ onMovieClick }) {
+function MovieList({ onMovieCardClick }) {
     const [movies, setMovies] = useState(undefined);
     const [page, setPage] = useState(1);
     const [sortOptions, setSortOptions] = useState({ sortVal: "popularity", sortDir: "desc" });
@@ -100,6 +100,7 @@ function MovieList({ onMovieClick }) {
                         <option value="desc">&#x25BC;</option>
                     </select>
                 </form>
+                // TODO handle filtering
             }
 
             {isSearchActive &&
@@ -113,7 +114,7 @@ function MovieList({ onMovieClick }) {
                 {movies?.results.map(
                     movie =>
                         <MovieCard key={movie.id} movie={movie}
-                            onMovieClick={onMovieClick} />
+                            onMovieCardClick={onMovieCardClick} />
                 )}
             </section>
 
@@ -126,7 +127,7 @@ function MovieList({ onMovieClick }) {
 }
 
 MovieList.propTypes = {
-    onMovieClick: PropTypes.func.isRequired,
+    onMovieCardClick: PropTypes.object.isRequired,
 }
 
 export default MovieList;

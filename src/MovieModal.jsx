@@ -40,11 +40,9 @@ function MovieModal({ movieID, onMovieIDChange }) {
             day: 'numeric',
         });
         const genresStr = details.genres.map(genre => genre.name).join(", ");
-        // if (details.videos) {
-        //     const trailerURL = details.videos.filter(video => video.type === "Trailer" && video.site === "Youtube")
-        //         .sort((a, b) => new Date(b.published_at).getDate() - new Date(a.published_at).getDate())
-        // }
-        console.log(details.release_date)
+        const videos = details.videos.results;
+        const trailers = videos ? videos.filter(video => (video.type === "Trailer" && video.site === "YouTube")) : [];
+        const trailer = trailers ? trailers[trailers.length - 1] : null;
 
         return (
             <article>
@@ -54,7 +52,7 @@ function MovieModal({ movieID, onMovieIDChange }) {
                 {details.release_date && <p>Released on {releaseDateStr}</p>}
                 {genresStr && <p>Genre: {genresStr}</p>}
                 <p>{details.overview}</p>
-                {/* <p>{trailerURL}</p> */}
+                {trailer && <iframe src={`https://www.youtube.com/embed/${trailer}`} allowFullScreen />}
                 {details.poster_path && <img src={`https://image.tmdb.org/t/p/w780${details.poster_path}`} id="poster" />}
             </article>
         );

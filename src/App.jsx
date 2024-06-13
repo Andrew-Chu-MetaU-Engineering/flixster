@@ -7,18 +7,24 @@ import MovieModal from './MovieModal';
 
 const App = () => {
   const [modalMovieID, setModalMovieID] = useState(0);
+  const [userData, setUserData] = useState({ watched: [], liked: [] });
 
-  const handleMovieClick = (e, movieId) => {
-    // TODO apply Martin's feedback on Project 1 re: event handlers
-    if (e.target.name === "like") {
-      console.log("like", movieId);
-    } else if (e.target.name === "watched") {
-      console.log("watched", movieId);
-    } else {
-      setModalMovieID(movieId);
-      console.log("modal", movieId);
-    }
+  const handleMovieCardClick = (movieId) => { setModalMovieID(movieId) };
+  const handleMovieCardWatched = (e, title) => {
+    setUserData({ ...userData, watched: [...userData.watched, title] });
+    e.stopPropagation();
+    console.log(userData);
   };
+  const handleMovieCardLiked = (e, title) => {
+    setUserData({ ...userData, liked: [...userData.liked , title] });
+    e.stopPropagation();
+    console.log(userData);
+  };
+  const onMovieCardClick = {
+    modal: handleMovieCardClick,
+    watched: handleMovieCardWatched,
+    liked: handleMovieCardLiked,
+  }
 
   return (
     <>
@@ -26,7 +32,7 @@ const App = () => {
         <h1>Flixster</h1>
       </header>
       <div className="App">
-        <MovieList onMovieClick={handleMovieClick} />
+        <MovieList onMovieCardClick={onMovieCardClick} />
         {Boolean(modalMovieID) && <MovieModal movieID={modalMovieID} onMovieIDChange={setModalMovieID} />}
       </div>
       <footer className="App-header">
