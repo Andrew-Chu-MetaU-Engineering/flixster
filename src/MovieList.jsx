@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import MovieCard from './MovieCard';
 import './MovieList.css';
 
-function MovieList({ onMovieCardClick }) {
+function MovieList({ isSearchActive, setIsSearchActive, onMovieCardClick }) {
     const [movies, setMovies] = useState(undefined);
     const [page, setPage] = useState(1);
     const [sortOptions, setSortOptions] = useState({ sortVal: "popularity", sortDir: "desc" });
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [isSearchActive, setIsSearchActive] = useState(false);
 
     useEffect(() => {
         const options = {
@@ -65,37 +64,42 @@ function MovieList({ onMovieCardClick }) {
         setPage(1);
     }
 
-    const handleSearchToggle = (e) => {
-
-        const button = e.target.name;
-        if (button === "now-playing") {
-            setIsSearchActive(false);
-        } else if (button === "search") {
-            setIsSearchActive(true);
-        }
+    const handleNowPlayingButton = () => {
+        setIsSearchActive(false);
+        setSortOptions({ sortVal: "popularity", sortDir: "desc" });
 
         setPage(1);
         setSearchQuery("");
     }
 
-    const handleSortForm = (e) => {
-        setSortOptions((prevSortOptions) => ({ ...prevSortOptions, [e.target.name]: e.target.value }));
+    const handleSearchButton = () => {
+        setIsSearchActive(true);
+
+        setPage(1);
+        setSearchQuery("");
+    }
+
+    const handleSortVal = (e) => {
+        setSortOptions((prevSortOptions) => ({ ...prevSortOptions, sortVal: e.target.value }));
+    }
+    const handleSortDir = (e) => {
+        setSortOptions((prevSortOptions) => ({ ...prevSortOptions, sortDir: e.target.value }));
     }
 
     return (
         <>
-            <button onClick={handleSearchToggle} name="now-playing" className="now-playing">Now Playing</button>
-            <button onClick={handleSearchToggle} name="search" className="search">Search</button>
+            <button onClick={handleNowPlayingButton} name="now-playing" className="now-playing">Now Playing</button>
+            <button onClick={handleSearchButton} name="search" className="search">Search</button>
 
             {!isSearchActive &&
-                <form onChange={handleSortForm}>
-                    <select name="sortVal" defaultValue="popularity">
+                <form >
+                    <select name="sortVal" value={sortOptions.sortVal} onChange={handleSortVal}>
                         <option value="popularity">Popularity</option>
                         <option value="vote_average">Rating</option>
                         <option value="primary_release_date">Release Date</option>
                         <option value="title">Title</option>
                     </select>
-                    <select name="sortDir" defaultValue="desc">
+                    <select name="sortDir" value={sortOptions.sortDir} onChange={handleSortDir}>
                         <option value="asc">&#x25B2;</option>
                         <option value="desc">&#x25BC;</option>
                     </select>
@@ -127,6 +131,8 @@ function MovieList({ onMovieCardClick }) {
 }
 
 MovieList.propTypes = {
+    isSearchActive: PropTypes.bool.isRequired,
+    setIsSearchActive: PropTypes.func.isRequired,
     onMovieCardClick: PropTypes.object.isRequired,
 }
 

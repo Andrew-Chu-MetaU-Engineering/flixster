@@ -43,6 +43,7 @@ function MovieModal({ movieID, onMovieIDChange }) {
         const videos = details.videos.results;
         const trailers = videos ? videos.filter(video => (video.type === "Trailer" && video.site === "YouTube")) : [];
         const trailer = trailers ? trailers[trailers.length - 1] : null;
+        console.log("trailer", trailer);
 
         return (
             <article>
@@ -52,7 +53,7 @@ function MovieModal({ movieID, onMovieIDChange }) {
                 {details.release_date && <p>Released on {releaseDateStr}</p>}
                 {genresStr && <p>Genre: {genresStr}</p>}
                 <p>{details.overview}</p>
-                {trailer && <iframe src={`https://www.youtube.com/embed/${trailer}`} allowFullScreen />}
+                {trailer && <iframe src={`https://www.youtube.com/embed/${trailer.key}`} allowFullScreen />}
                 {details.poster_path && <img src={`https://image.tmdb.org/t/p/w780${details.poster_path}`} id="poster" />}
             </article>
         );
