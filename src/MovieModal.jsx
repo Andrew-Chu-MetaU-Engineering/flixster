@@ -32,7 +32,8 @@ function MovieModal({ movieID, onMovieIDChange }) {
     console.log("delta", movieDetails);
 
     function processMovieDetails(details) {
-        const runtimeStr = `${Math.floor(details.runtime / 60)}h ${(details.runtime % 60)}m`
+        const runtimeStr = details.runtime > 59 ?
+            `${Math.floor(details.runtime / 60)}h ${(details.runtime % 60)}m` : `${(details.runtime % 60)}m`
         const releaseDateStr = new Date(details.release_date).toLocaleDateString("en-US", {
             year: 'numeric',
             month: 'short',
@@ -43,18 +44,18 @@ function MovieModal({ movieID, onMovieIDChange }) {
         //     const trailerURL = details.videos.filter(video => video.type === "Trailer" && video.site === "Youtube")
         //         .sort((a, b) => new Date(b.published_at).getDate() - new Date(a.published_at).getDate())
         // }
+        console.log(details.release_date)
 
         return (
             <article>
+                <h3>{details.title}</h3>
                 {details.backdrop_path && <img src={`https://image.tmdb.org/t/p/w1280${details.backdrop_path}`} id="backdrop" />}
                 <p>Runtime: {runtimeStr}</p>
-                {releaseDateStr && <p>Released on {releaseDateStr}</p>}
+                {details.release_date && <p>Released on {releaseDateStr}</p>}
                 {genresStr && <p>Genre: {genresStr}</p>}
                 <p>{details.overview}</p>
                 {/* <p>{trailerURL}</p> */}
-                <img src={details.poster_path ?
-                    `https://image.tmdb.org/t/p/w780${details.poster_path}` : "https://critics.io/img/movies/poster-placeholder.png"
-                } id="poster" />
+                {details.poster_path && <img src={`https://image.tmdb.org/t/p/w780${details.poster_path}`} id="poster" />}
             </article>
         );
     }

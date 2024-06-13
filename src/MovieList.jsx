@@ -6,6 +6,7 @@ import './MovieList.css';
 function MovieList({ onMovieClick }) {
     const [movies, setMovies] = useState(undefined);
     const [page, setPage] = useState(1);
+    const [sortOptions, setSortOptions] = useState({ sortVal: "popularity", sortDir: "desc" });
 
     const [searchQuery, setSearchQuery] = useState("");
     const [isSearchActive, setIsSearchActive] = useState(false);
@@ -24,7 +25,7 @@ function MovieList({ onMovieClick }) {
                 if (isSearchActive) {
                     url += `/search/movie?query=${searchQuery}&include_adult=false&language=en-US&page=${page}`;
                 } else {
-                    url += `/movie/now_playing?language=en-US&page=${page}`;
+                    url += `/discover/movie?include_adult=false&language=en-US&page=${page}&sort_by=${sortOptions.sortVal}.${sortOptions.sortDir}`;
                 }
 
                 const response = await fetch(url, options);
@@ -52,7 +53,7 @@ function MovieList({ onMovieClick }) {
             }
         }
         fetchData();
-    }, [page, isSearchActive, searchQuery]);
+    }, [page, isSearchActive, searchQuery, sortOptions]);
 
     const handleSearchSubmit = async (e) => {
         e.preventDefault();
@@ -77,19 +78,29 @@ function MovieList({ onMovieClick }) {
         setSearchQuery("");
     }
 
+    const handleSortForm = (e) => {
+        setSortOptions((prevSortOptions) => ({ ...prevSortOptions, [e.target.name]: e.target.value }));
+    }
+
     return (
         <>
             <button onClick={handleSearchToggle} name="now-playing" className="now-playing">Now Playing</button>
             <button onClick={handleSearchToggle} name="search" className="search">Search</button>
-            {/* <form>
-                <label>
-                    <select>
-                        <option value="1">Default</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+
+            {!isSearchActive &&
+                <form onChange={handleSortForm}>
+                    <select name="sortVal" defaultValue="popularity">
+                        <option value="popularity">Popularity</option>
+                        <option value="vote_average">Rating</option>
+                        <option value="primary_release_date">Release Date</option>
+                        <option value="title">Title</option>
                     </select>
-                </label>
-            </form> */}
+                    <select name="sortDir" defaultValue="desc">
+                        <option value="asc">&#x25B2;</option>
+                        <option value="desc">&#x25BC;</option>
+                    </select>
+                </form>
+            }
 
             {isSearchActive &&
                 <form onSubmit={handleSearchSubmit}>
@@ -98,7 +109,7 @@ function MovieList({ onMovieClick }) {
                 </form>
             }
 
-            <section className='movie-list'>
+            <section className="movie-list">
                 {movies?.results.map(
                     movie =>
                         <MovieCard key={movie.id} movie={movie}
