@@ -8,8 +8,16 @@
   margin: 0.25rem;
 }
 
-.card-info {
+#rating-and-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#card-info {
+  min-height: 9rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
+

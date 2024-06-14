@@ -66,7 +66,7 @@ const App = () => {
           <Sidebar userData={userData} />
         </Drawer>
       </header>
-      <div id="content-wrap">
+      <section id="content-wrap">
         <span id="movie-body">
           <MovieList
             isSearchActive={isSearchActive}
@@ -80,7 +80,7 @@ const App = () => {
             onMovieIDChange={setModalMovieID}
           />
         )}
-      </div>
+      </section>
       <footer>
         <div>
           <h2>Flixster</h2>

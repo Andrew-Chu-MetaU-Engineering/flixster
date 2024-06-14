@@ -33,7 +33,7 @@
 }
 
 #close {
-  z-index: 1;
+  z-index: 2;
   color: #aaa;
   float: right;
   font-size: 1.5rem;
@@ -57,19 +57,25 @@
 }
 
 #poster-panel {
+  display: flex;
   float: left;
   padding: 2rem;
-  /* TODO poster clipping */
+  width: 50%;
+  justify-content: center;
+  align-items: center;
 }
 
 #poster {
-  width: 100%;
-  height: auto;
+  max-width: 100%;
+  max-height: 40rem;
 }
 
 #info-wrapper {
+  width: 50%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   padding: 2rem;
 }
 
@@ -80,4 +86,15 @@
 
 #backdrop {
   height: 20%;
+}
+
+@media (max-width: 800px) {
+  #movie-details {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  #poster-panel,
+  #info-wrapper {
+    width: 90%;
+  }
 }

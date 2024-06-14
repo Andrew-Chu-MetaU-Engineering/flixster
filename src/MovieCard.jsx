@@ -13,40 +13,45 @@ function MovieCard({ movie, onMovieCardClick }) {
     <Card id="movie-card" onClick={() => onMovieCardClick.modal(movie.id)}>
       <CardMedia
         component="img"
-        alt={movie.title}
+        alt={movie.title + " Poster"}
         image={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : "https://critics.io/img/movies/poster-placeholder.png"
         }
       />
+
       <CardContent id="card-info">
-        <h2 id="title">{movie.title}</h2>
-        <h4 id="rating">
-          &#x2B50; {movie.vote_average ? movie.vote_average.toFixed(2) : 0}
-        </h4>
-        {onMovieCardClick.data.liked.includes(movie.title) ? (
-          <FavoriteIcon
-            className="action-button"
-            onClick={(e) => onMovieCardClick.liked(e, movie.title)}
-          />
-        ) : (
-          <FavoriteBorderIcon
-            className="action-button"
-            onClick={(e) => onMovieCardClick.liked(e, movie.title)}
-          />
-        )}
-        {onMovieCardClick.data.watched.includes(movie.title) ? (
-          <VisibilityIcon
-            className="action-button"
-            onClick={(e) => onMovieCardClick.watched(e, movie.title)}
-          />
-        ) : (
-          <VisibilityOutlinedIcon
-            className="action-button"
-            onClick={(e) => onMovieCardClick.watched(e, movie.title)}
-          />
-        )}
+        <h3 id="title">{movie.title}</h3>
+        <span id="rating-and-buttons">
+          <h4 id="rating">
+            &#x2B50; {movie.vote_average ? movie.vote_average.toFixed(2) : 0}
+          </h4>
+          <div id="button-wrapper">
+            {onMovieCardClick.data.liked.includes(movie.title) ? (
+              <FavoriteIcon
+                className="action-button"
+                onClick={(e) => onMovieCardClick.liked(e, movie.title)}
+              />
+            ) : (
+              <FavoriteBorderIcon
+                className="action-button"
+                onClick={(e) => onMovieCardClick.liked(e, movie.title)}
+              />
+            )}
+            {onMovieCardClick.data.watched.includes(movie.title) ? (
+              <VisibilityIcon
+                className="action-button"
+                onClick={(e) => onMovieCardClick.watched(e, movie.title)}
+              />
+            ) : (
+              <VisibilityOutlinedIcon
+                className="action-button"
+                onClick={(e) => onMovieCardClick.watched(e, movie.title)}
+              />
+            )}
+          </div>
+        </span>
       </CardContent>
     </Card>
   );

@@ -32,8 +32,6 @@ function MovieModal({ movieID, onMovieIDChange }) {
     fetchData();
   }, [movieID]);
 
-  console.log("delta", movieDetails);
-
   function processMovieDetails(details) {
     const runtimeStr =
       details.runtime > 59
@@ -55,24 +53,22 @@ function MovieModal({ movieID, onMovieIDChange }) {
         )
       : [];
     const trailer = trailers ? trailers[trailers.length - 1] : null;
-    console.log("trailer", trailer);
 
     return (
       <article id="movie-details">
         <div id="poster-panel">
-          {details.poster_path && (
             <img
-              src={`https://image.tmdb.org/t/p/w780${details.poster_path}`}
+              src={details.poster_path ? `https://image.tmdb.org/t/p/w780${details.poster_path}` : "https://critics.io/img/movies/poster-placeholder.png"}
+              alt={details.title + "Poster"}
               id="poster"
             />
-          )}
         </div>
         <article id="info-wrapper">
-          <h3 id="title">{details.title}</h3>
+          <h2 id="title">{details.title}</h2>
           <div id="stats">
-            <p>Runtime: {runtimeStr}</p>
-            {details.release_date && <p>Released on {releaseDateStr}</p>}
-            {genresStr && <p>Genre: {genresStr}</p>}
+            <h5>Runtime: {runtimeStr}</h5>
+            {details.release_date && <h5>Released on {releaseDateStr}</h5>}
+            {genresStr && <h5>Genre: {genresStr}</h5>}
             <p>{details.overview}</p>
           </div>
           <div id="trailer-panel">

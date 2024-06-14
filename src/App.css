@@ -10,7 +10,14 @@ header {
   justify-content: space-between;
 }
 
-header > h1,
+header > h1 {
+  margin: 2rem;
+  color: dodgerblue;
+  background-color: aliceblue;
+  border-radius: 0.25rem;
+  padding: 1rem 2rem;
+}
+
 header > .user-movies {
   margin: 2rem;
 }
