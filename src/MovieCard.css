@@ -1,15 +1,15 @@
-/* TODO apply Martin's feedback on project 1 re: CSS */
-.movie-card {
-    width: 15rem;
-    margin: 1rem;
-    border: thick double black;
-    border-radius: 1rem;
+#movie-card {
+  width: 15rem;
+  height: auto;
+  margin: 2rem;
 }
 
-.title {
-    width: 100%;
+.action-button {
+  margin: 0.25rem;
 }
 
-.poster {
-    width: 90%;
+.card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

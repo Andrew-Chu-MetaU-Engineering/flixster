@@ -1,21 +1,34 @@
-import { useState } from 'react';
-import './App.css';
-import MovieList from './MovieList';
-import MovieModal from './MovieModal';
-import Sidebar from './Sidebar';
+import { useState } from "react";
 
-// TODO Milestone 3
+import MovieList from "./MovieList";
+import MovieModal from "./MovieModal";
+import Sidebar from "./Sidebar";
+import "./App.css";
+
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
 
 const App = () => {
   const [modalMovieID, setModalMovieID] = useState(0);
   const [userData, setUserData] = useState({ watched: [], liked: [] });
   const [isSearchActive, setIsSearchActive] = useState(false);
 
-  const handleMovieCardClick = (movieId) => { setModalMovieID(movieId) };
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (newOpen) => () => {
+    setDrawerOpen(newOpen);
+  };
+
+  const handleMovieCardClick = (movieId) => {
+    setModalMovieID(movieId);
+  };
   const handleMovieCardWatched = (e, title) => {
     e.stopPropagation();
-    if (userData.liked.includes(title)) {
-      setUserData({ ...userData, watched: userData.watched.filter(movie => movie != title) });
+    if (userData.watched.includes(title)) {
+      setUserData({
+        ...userData,
+        watched: userData.watched.filter((movie) => movie != title),
+      });
     } else {
       setUserData({ ...userData, watched: [...userData.watched, title] });
     }
@@ -23,32 +36,68 @@ const App = () => {
   const handleMovieCardLiked = (e, title) => {
     e.stopPropagation();
     if (userData.liked.includes(title)) {
-      setUserData({ ...userData, liked: userData.liked.filter(movie => movie != title) });
+      setUserData({
+        ...userData,
+        liked: userData.liked.filter((movie) => movie != title),
+      });
     } else {
       setUserData({ ...userData, liked: [...userData.liked, title] });
     }
   };
   const onMovieCardClick = {
+    data: userData,
     modal: handleMovieCardClick,
     watched: handleMovieCardWatched,
     liked: handleMovieCardLiked,
-  }
+  };
 
   return (
-    <>
-      <header className="App-header">
+    <div id="page-container">
+      <header>
         <h1>Flixster</h1>
+        <Button
+          onClick={toggleDrawer(true)}
+          variant="contained"
+          className="user-movies"
+        >
+          Your Movies
+        </Button>
+        <Drawer open={drawerOpen} onClose={toggleDrawer(false)} anchor="right">
+          <Sidebar userData={userData} />
+        </Drawer>
       </header>
-      <div className="App">
-        <MovieList isSearchActive={isSearchActive} setIsSearchActive={setIsSearchActive} onMovieCardClick={onMovieCardClick} />
-        {!isSearchActive && <Sidebar userData={userData} />}
-        {Boolean(modalMovieID) && <MovieModal movieID={modalMovieID} onMovieIDChange={setModalMovieID} />}
+      <div id="content-wrap">
+        <span id="movie-body">
+          <MovieList
+            isSearchActive={isSearchActive}
+            setIsSearchActive={setIsSearchActive}
+            onMovieCardClick={onMovieCardClick}
+          />
+        </span>
+        {Boolean(modalMovieID) && (
+          <MovieModal
+            movieID={modalMovieID}
+            onMovieIDChange={setModalMovieID}
+          />
+        )}
       </div>
-      <footer className="App-header">
-        <h1>Flixster</h1>
+      <footer>
+        <div>
+          <h2>Flixster</h2>
+          <h3>The movie discovery site.</h3>
+        </div>
+        <div id="footer-info">
+          <h3>About</h3>
+          <h4>
+            Founded 0 years ago, Flixster provides information about any and all
+            movies to over 1 user.
+          </h4>
+          <h3>Contact</h3>
+          <h4>andrewchu@flixster.org</h4>
+        </div>
       </footer>
-    </>
+    </div>
   );
-}
+};
 
 export default App;

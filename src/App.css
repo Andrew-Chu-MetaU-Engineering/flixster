@@ -1,28 +1,63 @@
-.App {
-  text-align: center;
-}
-
-.App-header {
-  background-color: #282c34;
+header {
+  font-family: cursive;
+  font-style: italic;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-  color: white;
+  color: black;
   padding: 20px;
+  background: url("https://ficommunitycenter.org/wp-content/uploads/2019/05/popcorn-header.jpg")
+    no-repeat center;
+  justify-content: space-between;
 }
 
-@media (max-width: 600px) {
-  .movie-card {
-    width: 100%;
+header > h1,
+header > .user-movies {
+  margin: 2rem;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 20rem;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20rem;
+  background: linear-gradient(ghostwhite, red);
+  display: flex;
+  justify-content: space-between;
+}
+
+footer > div {
+  width: 25%;
+  margin: 2rem;
+}
+
+#movie-body {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 800px) {
+  footer {
+    flex-direction: column;
+    justify-content: start;
+    height: 25rem;
   }
 
-  .search-bar {
-    flex-direction: column;
-    gap: 10px;
+  footer > div {
+    width: 85%;
+    margin: 1rem 2rem;
   }
 
-  .search-bar form {
-    flex-direction: column;
+  #content-wrap {
+    padding-bottom: 25rem;
   }
 }

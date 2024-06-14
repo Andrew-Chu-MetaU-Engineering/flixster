@@ -1,10 +1,25 @@
-.movie-list {
-    display: flex;
-    flex-wrap: wrap;
+#list-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.now-playing, .search, .load-more {
-    margin: 2rem;
-    padding: 0.5rem;
-    border-radius: 1rem;
+#movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.settings {
+  display: flex;
+  justify-content: center;
+}
+
+.settings > form {
+  display: flex;
+  align-items: center;
+}
+
+.mui-input {
+  margin: 1rem;
 }
