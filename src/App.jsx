@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import MovieList from "./MovieList";
+import MovieDisplayBody from "./MovieDisplayBody";
 import MovieModal from "./MovieModal";
 import Sidebar from "./Sidebar";
 import "./App.css";
@@ -44,12 +44,6 @@ const App = () => {
       setUserData({ ...userData, liked: [...userData.liked, title] });
     }
   };
-  const onMovieCardClick = {
-    data: userData,
-    modal: handleMovieCardClick,
-    watched: handleMovieCardWatched,
-    liked: handleMovieCardLiked,
-  };
 
   return (
     <div id="page-container">
@@ -68,10 +62,13 @@ const App = () => {
       </header>
       <section id="content-wrap">
         <span id="movie-body">
-          <MovieList
+          <MovieDisplayBody
             isSearchActive={isSearchActive}
             setIsSearchActive={setIsSearchActive}
-            onMovieCardClick={onMovieCardClick}
+            userData={userData}
+            handleMovieCardClick={handleMovieCardClick}
+            handleMovieCardWatched={handleMovieCardWatched}
+            handleMovieCardLiked={handleMovieCardLiked}
           />
         </span>
         {Boolean(modalMovieID) && (

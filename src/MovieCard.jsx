@@ -8,9 +8,15 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
-function MovieCard({ movie, onMovieCardClick }) {
+function MovieCard({
+  movie,
+  userData,
+  handleMovieCardClick,
+  handleMovieCardWatched,
+  handleMovieCardLiked,
+}) {
   return (
-    <Card id="movie-card" onClick={() => onMovieCardClick.modal(movie.id)}>
+    <Card id="movie-card" onClick={() => handleMovieCardClick(movie.id)}>
       <CardMedia
         component="img"
         alt={movie.title + " Poster"}
@@ -28,26 +34,26 @@ function MovieCard({ movie, onMovieCardClick }) {
             &#x2B50; {movie.vote_average ? movie.vote_average.toFixed(2) : 0}
           </h4>
           <div id="button-wrapper">
-            {onMovieCardClick.data.liked.includes(movie.title) ? (
+            {userData.liked.includes(movie.title) ? (
               <FavoriteIcon
                 className="action-button"
-                onClick={(e) => onMovieCardClick.liked(e, movie.title)}
+                onClick={(e) => handleMovieCardLiked(e, movie.title)}
               />
             ) : (
               <FavoriteBorderIcon
                 className="action-button"
-                onClick={(e) => onMovieCardClick.liked(e, movie.title)}
+                onClick={(e) => handleMovieCardLiked(e, movie.title)}
               />
             )}
-            {onMovieCardClick.data.watched.includes(movie.title) ? (
+            {userData.watched.includes(movie.title) ? (
               <VisibilityIcon
                 className="action-button"
-                onClick={(e) => onMovieCardClick.watched(e, movie.title)}
+                onClick={(e) => handleMovieCardWatched(e, movie.title)}
               />
             ) : (
               <VisibilityOutlinedIcon
                 className="action-button"
-                onClick={(e) => onMovieCardClick.watched(e, movie.title)}
+                onClick={(e) => handleMovieCardWatched(e, movie.title)}
               />
             )}
           </div>
@@ -60,6 +66,10 @@ function MovieCard({ movie, onMovieCardClick }) {
 MovieCard.propTypes = {
   movie: PropTypes.object.isRequired,
   onMovieCardClick: PropTypes.object.isRequired,
+  userData: PropTypes.object.isRequired,
+  handleMovieCardClick: PropTypes.func.isRequired,
+  handleMovieCardWatched: PropTypes.func.isRequired,
+  handleMovieCardLiked: PropTypes.func.isRequired,
 };
 
 export default MovieCard;

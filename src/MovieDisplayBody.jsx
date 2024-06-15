@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import MovieCard from "./MovieCard";
+import MovieCard from "./MovieCard.jsx";
 import data from "./data/data.js";
-import "./MovieList.css";
+import "./MovieDisplayBody.css";
 
 import { Button, Select, MenuItem, TextField, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-function MovieList({ isSearchActive, setIsSearchActive, onMovieCardClick }) {
+function MovieDisplayBody({
+  isSearchActive,
+  setIsSearchActive,
+  userData,
+  handleMovieCardClick,
+  handleMovieCardWatched,
+  handleMovieCardLiked,
+}) {
   const [movies, setMovies] = useState(undefined);
   const [page, setPage] = useState(1);
   const [sortOptions, setSortOptions] = useState({
@@ -176,7 +183,10 @@ function MovieList({ isSearchActive, setIsSearchActive, onMovieCardClick }) {
           <MovieCard
             key={movie.id}
             movie={movie}
-            onMovieCardClick={onMovieCardClick}
+            userData={userData}
+            handleMovieCardClick={handleMovieCardClick}
+            handleMovieCardWatched={handleMovieCardWatched}
+            handleMovieCardLiked={handleMovieCardLiked}
           />
         ))}
       </section>
@@ -197,10 +207,13 @@ function MovieList({ isSearchActive, setIsSearchActive, onMovieCardClick }) {
   );
 }
 
-MovieList.propTypes = {
+MovieDisplayBody.propTypes = {
   isSearchActive: PropTypes.bool.isRequired,
   setIsSearchActive: PropTypes.func.isRequired,
-  onMovieCardClick: PropTypes.object.isRequired,
+  userData: PropTypes.object.isRequired,
+  handleMovieCardClick: PropTypes.func.isRequired,
+  handleMovieCardWatched: PropTypes.func.isRequired,
+  handleMovieCardLiked: PropTypes.func.isRequired,
 };
 
-export default MovieList;
+export default MovieDisplayBody;

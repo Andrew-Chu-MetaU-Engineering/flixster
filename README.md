@@ -1,12 +1,10 @@
-📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
-
 ## Unit Assignment: Flixster
 
 Submitted by: **Andrew Chu**
 
 Estimated time spent: **25** hours spent in total
 
-Deployed Application (optional): [Flixster Deployed Site](ADD_LINK_HERE)
+Deployed Application (optional): [Flixster Deployed Site](https://flixster-jqx4.onrender.com/)
 
 ### Application Features
 
@@ -33,8 +31,8 @@ Deployed Application (optional): [Flixster Deployed Site](ADD_LINK_HERE)
 
 #### STRETCH FEATURES
 
-- [ ] **Deployment**
-  - [ ] Website is deployed via Render.
+- [X] **Deployment**
+  - [X] Website is deployed via Render.
 - [X] **Embedded Movie Trailers**
   - [X] Within the popup displaying a movie's details, users can play the movie trailer.
 - [X] **Watched Checkbox**
