@@ -45,7 +45,7 @@ Deployed Application (optional): [Flixster Deployed Site](https://flixster-jqx4.
 
 ### Walkthrough Video
 
-[Walkthrough Video](https://github.com/Andrew-Chu-MetaU-Engineering/flixster/blob/43d5c7ca2d8dadca28e9747698679b99dab2a2bc/demo.gif)
+![Walkthrough Video](https://github.com/Andrew-Chu-MetaU-Engineering/flixster/blob/43d5c7ca2d8dadca28e9747698679b99dab2a2bc/demo.gif)
 
 ### Reflection
 
